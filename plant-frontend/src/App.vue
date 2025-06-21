@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import LineChart from './components/LineChart.vue'
 
 const plants = ref([
   { id: 1, name: 'Aloe Vera' },
@@ -9,10 +10,17 @@ const plants = ref([
 
 const selectedPlant = ref(plants.value[0])
 const sidebarOpen = ref(false)
+const lastUpdate = ref(new Date().toLocaleTimeString())
+
+const labels = Array.from({ length: 24 }, (_, i) => `${i + 1}`)
+const moistureData = Array.from({ length: 24 }, () => Math.floor(Math.random() * 40) + 30)
+const temperatureData = Array.from({ length: 24 }, () => Math.floor(Math.random() * 10) + 20)
+const lightData = Array.from({ length: 24 }, () => Math.floor(Math.random() * 100))
 
 function selectPlant(plant) {
   selectedPlant.value = plant
   sidebarOpen.value = false
+  lastUpdate.value = new Date().toLocaleTimeString()
 }
 </script>
 
@@ -31,11 +39,11 @@ function selectPlant(plant) {
       ]"
     >
       <h2 class="text-xl font-bold mb-4">Plants</h2>
-      <ul>
+  <ul class="divide-y divide-gray-300">
         <li
           v-for="plant in plants"
           :key="plant.id"
-          class="mb-2"
+          class="py-2"
         >
           <button
             class="w-full text-left px-2 py-1 rounded hover:bg-green-200"
@@ -64,32 +72,25 @@ function selectPlant(plant) {
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
-        <h1 class="text-xl font-bold">{{ selectedPlant.name }}</h1>
+        <div class="text-right">
+          <h1 class="text-xl font-bold">{{ selectedPlant.name }}</h1>
+          <p class="text-xs text-gray-500">Last Update: {{ lastUpdate }}</p>
+        </div>
       </header>
-      <div class="hidden md:block mb-4">
+      <div class="hidden md:flex justify-between items-center mb-4">
         <h1 class="text-2xl font-bold">{{ selectedPlant.name }}</h1>
+        <span class="text-sm text-gray-500">Last Update: {{ lastUpdate }}</span>
       </div>
-      <!-- Dashboard Cards -->
+      <!-- Dashboard Charts -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <div class="bg-white rounded shadow p-4">
-          <h3 class="font-semibold mb-2">Date</h3>
-          <p>{{ new Date().toLocaleDateString() }}</p>
+        <div class="bg-white rounded shadow p-4 h-48">
+          <LineChart :labels="labels" :values="moistureData" y-label="Moisture (%)" />
         </div>
-        <div class="bg-white rounded shadow p-4">
-          <h3 class="font-semibold mb-2">Last Update</h3>
-          <p>{{ new Date().toLocaleTimeString() }}</p>
+        <div class="bg-white rounded shadow p-4 h-48">
+          <LineChart :labels="labels" :values="temperatureData" y-label="Temperature (°C)" />
         </div>
-        <div class="bg-white rounded shadow p-4">
-          <h3 class="font-semibold mb-2">Moisture</h3>
-          <p>45%</p>
-        </div>
-        <div class="bg-white rounded shadow p-4">
-          <h3 class="font-semibold mb-2">Temperature</h3>
-          <p>22°C</p>
-        </div>
-        <div class="bg-white rounded shadow p-4">
-          <h3 class="font-semibold mb-2">Light Level</h3>
-          <p>Medium</p>
+        <div class="bg-white rounded shadow p-4 h-48">
+          <LineChart :labels="labels" :values="lightData" y-label="Light" />
         </div>
       </div>
     </div>
