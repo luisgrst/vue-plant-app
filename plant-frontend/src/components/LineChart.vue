@@ -19,6 +19,10 @@ const props = defineProps({
   yLabel: {
     type: String,
     required: true
+  },
+  color: {
+    type: String,
+    default: 'rgb(75, 192, 192)'
   }
 })
 
@@ -29,7 +33,7 @@ const chartData = {
       label: props.yLabel,
       data: props.values,
       fill: false,
-      borderColor: 'rgb(75, 192, 192)',
+      borderColor: props.color,
       tension: 0.4
     }
   ]
@@ -40,9 +44,11 @@ const chartOptions = {
   maintainAspectRatio: false,
   scales: {
     x: {
-      title: {
-        display: true,
-        text: 'Time'
+      ticks: {
+        callback: (val, index) =>
+          index % 4 === 0
+            ? `${String(props.labels[index]).padStart(2, '0')}:00`
+            : ''
       }
     },
     y: {

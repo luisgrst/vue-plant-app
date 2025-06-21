@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import LineChart from './components/LineChart.vue'
 
 const plants = ref([
@@ -12,10 +12,14 @@ const selectedPlant = ref(plants.value[0])
 const sidebarOpen = ref(false)
 const lastUpdate = ref(new Date().toLocaleTimeString())
 
-const labels = Array.from({ length: 24 }, (_, i) => `${i + 1}`)
+const labels = Array.from({ length: 24 }, (_, i) => i)
 const moistureData = Array.from({ length: 24 }, () => Math.floor(Math.random() * 40) + 30)
 const temperatureData = Array.from({ length: 24 }, () => Math.floor(Math.random() * 10) + 20)
 const lightData = Array.from({ length: 24 }, () => Math.floor(Math.random() * 100))
+
+const latestMoisture = computed(() => moistureData[moistureData.length - 1])
+const latestTemperature = computed(() => temperatureData[temperatureData.length - 1])
+const latestLight = computed(() => lightData[lightData.length - 1])
 
 function selectPlant(plant) {
   selectedPlant.value = plant
@@ -34,7 +38,7 @@ function selectPlant(plant) {
     ></div>
     <aside
       :class="[
-        'bg-gray-100 w-64 p-4 z-20 transition-transform md:translate-x-0 fixed md:static h-full overflow-y-auto',
+        'bg-green-100 w-64 p-4 z-20 transition-transform md:translate-x-0 fixed md:static h-full overflow-y-auto',
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       ]"
     >
@@ -82,16 +86,34 @@ function selectPlant(plant) {
         <span class="text-sm text-gray-500">Last Update: {{ lastUpdate }}</span>
       </div>
       <!-- Dashboard Charts -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <div class="bg-white rounded shadow p-4 h-48">
-          <LineChart :labels="labels" :values="moistureData" y-label="Moisture (%)" />
-        </div>
-        <div class="bg-white rounded shadow p-4 h-48">
-          <LineChart :labels="labels" :values="temperatureData" y-label="Temperature (°C)" />
-        </div>
-        <div class="bg-white rounded shadow p-4 h-48">
-          <LineChart :labels="labels" :values="lightData" y-label="Light" />
-        </div>
+      <div class="space-y-4">
+        <details class="bg-white rounded shadow p-4">
+          <summary class="cursor-pointer text-lg mb-2">
+            <span class="font-bold">Moisture:</span>
+            <span class="font-bold text-sky-600"> {{ latestMoisture }}%</span>
+          </summary>
+          <div class="h-48">
+            <LineChart :labels="labels" :values="moistureData" y-label="Moisture (%)" color="#87CEEB" />
+          </div>
+        </details>
+        <details class="bg-white rounded shadow p-4">
+          <summary class="cursor-pointer text-lg mb-2">
+            <span class="font-bold">Temperature:</span>
+            <span class="font-bold text-red-600"> {{ latestTemperature }}°C</span>
+          </summary>
+          <div class="h-48">
+            <LineChart :labels="labels" :values="temperatureData" y-label="Temperature (°C)" color="#FF6347" />
+          </div>
+        </details>
+        <details class="bg-white rounded shadow p-4">
+          <summary class="cursor-pointer text-lg mb-2">
+            <span class="font-bold">Light:</span>
+            <span class="font-bold text-yellow-600"> {{ latestLight }}</span>
+          </summary>
+          <div class="h-48">
+            <LineChart :labels="labels" :values="lightData" y-label="Light" color="#FFD700" />
+          </div>
+        </details>
       </div>
     </div>
   </div>
@@ -99,6 +121,6 @@ function selectPlant(plant) {
 
 <style>
 body {
-  @apply bg-gray-50;
+  @apply bg-green-50;
 }
 </style>
