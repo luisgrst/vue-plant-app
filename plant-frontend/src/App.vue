@@ -29,7 +29,7 @@ function selectPlant(plant) {
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col md:flex-row">
+  <div class="min-h-screen flex flex-col md:flex-row bg-green-100">
     <!-- Sidebar -->
     <div
       class="fixed inset-0 bg-black bg-opacity-50 z-10 md:hidden"
@@ -60,7 +60,7 @@ function selectPlant(plant) {
     </aside>
 
     <!-- Main Content -->
-    <div class="flex-1 p-4 md:ml-64 bg-green-50">
+    <div class="flex-1 p-4 md:ml-64 bg-green-100">
       <header class="flex items-center justify-between mb-4 md:hidden">
         <button
           class="p-2 text-gray-700"
@@ -87,28 +87,37 @@ function selectPlant(plant) {
       </div>
       <!-- Dashboard Charts -->
       <div class="space-y-4">
-        <details class="bg-white rounded shadow p-4">
+        <details class="bg-white rounded shadow p-4 group">
           <summary class="cursor-pointer text-lg mb-2 flex items-center space-x-2 ml-1">
             <span class="font-bold">Moisture:</span>
             <span class="font-bold text-sky-600">{{ latestMoisture }}%</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-auto transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
           </summary>
           <div class="h-48">
             <LineChart :labels="labels" :values="moistureData" y-label="Moisture (%)" color="#87CEEB" />
           </div>
         </details>
-        <details class="bg-white rounded shadow p-4">
+        <details class="bg-white rounded shadow p-4 group">
           <summary class="cursor-pointer text-lg mb-2 flex items-center space-x-2 ml-1">
             <span class="font-bold">Temperature:</span>
             <span class="font-bold text-red-600">{{ latestTemperature }}°C</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-auto transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
           </summary>
           <div class="h-48">
             <LineChart :labels="labels" :values="temperatureData" y-label="Temperature (°C)" color="#FF6347" />
           </div>
         </details>
-        <details class="bg-white rounded shadow p-4">
+        <details class="bg-white rounded shadow p-4 group">
           <summary class="cursor-pointer text-lg mb-2 flex items-center space-x-2 ml-1">
             <span class="font-bold">Light:</span>
             <span class="font-bold text-yellow-600">{{ latestLight }}</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-auto transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
           </summary>
           <div class="h-48">
             <LineChart :labels="labels" :values="lightData" y-label="Light" color="#FFD700" />
