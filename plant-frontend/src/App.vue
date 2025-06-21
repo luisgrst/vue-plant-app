@@ -60,7 +60,7 @@ function selectPlant(plant) {
     </aside>
 
     <!-- Main Content -->
-    <div class="flex-1 p-4 md:ml-64">
+    <div class="flex-1 p-4 md:ml-64 bg-green-50">
       <header class="flex items-center justify-between mb-4 md:hidden">
         <button
           class="p-2 text-gray-700"
@@ -88,27 +88,27 @@ function selectPlant(plant) {
       <!-- Dashboard Charts -->
       <div class="space-y-4">
         <details class="bg-white rounded shadow p-4">
-          <summary class="cursor-pointer text-lg mb-2">
+          <summary class="cursor-pointer text-lg mb-2 flex items-center space-x-2 ml-1">
             <span class="font-bold">Moisture:</span>
-            <span class="font-bold text-sky-600"> {{ latestMoisture }}%</span>
+            <span class="font-bold text-sky-600">{{ latestMoisture }}%</span>
           </summary>
           <div class="h-48">
             <LineChart :labels="labels" :values="moistureData" y-label="Moisture (%)" color="#87CEEB" />
           </div>
         </details>
         <details class="bg-white rounded shadow p-4">
-          <summary class="cursor-pointer text-lg mb-2">
+          <summary class="cursor-pointer text-lg mb-2 flex items-center space-x-2 ml-1">
             <span class="font-bold">Temperature:</span>
-            <span class="font-bold text-red-600"> {{ latestTemperature }}°C</span>
+            <span class="font-bold text-red-600">{{ latestTemperature }}°C</span>
           </summary>
           <div class="h-48">
             <LineChart :labels="labels" :values="temperatureData" y-label="Temperature (°C)" color="#FF6347" />
           </div>
         </details>
         <details class="bg-white rounded shadow p-4">
-          <summary class="cursor-pointer text-lg mb-2">
+          <summary class="cursor-pointer text-lg mb-2 flex items-center space-x-2 ml-1">
             <span class="font-bold">Light:</span>
-            <span class="font-bold text-yellow-600"> {{ latestLight }}</span>
+            <span class="font-bold text-yellow-600">{{ latestLight }}</span>
           </summary>
           <div class="h-48">
             <LineChart :labels="labels" :values="lightData" y-label="Light" color="#FFD700" />
@@ -118,9 +118,3 @@ function selectPlant(plant) {
     </div>
   </div>
 </template>
-
-<style>
-body {
-  @apply bg-green-50;
-}
-</style>
