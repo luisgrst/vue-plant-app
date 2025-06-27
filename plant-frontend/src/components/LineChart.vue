@@ -20,6 +20,14 @@ const props = defineProps({
     type: String,
     default: ''
   },
+  min: {
+    type: Number,
+    default: 0
+  },
+  max: {
+    type: Number,
+    default: null
+  },
   color: {
     type: String,
     default: 'rgb(75, 192, 192)'
@@ -48,11 +56,19 @@ const chartOptions = {
   scales: {
     x: {
       grid: { display: false },
-      ticks: { display: false }
+      ticks: {
+        display: true,
+        color: '#4B5563',
+      }
     },
     y: {
       grid: { display: false },
-      ticks: { display: false }
+      suggestedMin: props.min,
+      suggestedMax: props.max,
+      ticks: {
+        display: true,
+        color: '#4B5563'
+      }
     }
   }
 }
