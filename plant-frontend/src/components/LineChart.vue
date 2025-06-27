@@ -18,7 +18,7 @@ const props = defineProps({
   },
   yLabel: {
     type: String,
-    required: true
+    default: ''
   },
   color: {
     type: String,
@@ -42,20 +42,17 @@ const chartData = {
 const chartOptions = {
   responsive: true,
   maintainAspectRatio: false,
+  plugins: {
+    legend: { display: false }
+  },
   scales: {
     x: {
-      ticks: {
-        callback: (val, index) =>
-          index % 4 === 0
-            ? `${String(props.labels[index]).padStart(2, '0')}:00`
-            : ''
-      }
+      grid: { display: false },
+      ticks: { display: false }
     },
     y: {
-      title: {
-        display: true,
-        text: props.yLabel
-      }
+      grid: { display: false },
+      ticks: { display: false }
     }
   }
 }
