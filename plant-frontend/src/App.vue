@@ -91,35 +91,35 @@ function showMetric(metric) {
     <div class="flex flex-nowrap gap-4 mb-6">
       <div
         @click="showMetric('overall')"
-        class="cursor-pointer bg-white rounded shadow flex flex-col items-center justify-center p-4 flex-1"
+        class="cursor-pointer bg-white rounded shadow flex flex-col items-center justify-center p-4 flex-1 aspect-square"
       >
         <span class="text-3xl">🌱</span>
         <span class="mt-2 font-semibold text-center">Overall Health</span>
       </div>
       <div
         @click="showMetric('moisture')"
-        class="cursor-pointer bg-white rounded shadow flex flex-col items-center justify-center p-4 flex-1"
+        class="cursor-pointer bg-white rounded shadow flex flex-col items-center justify-center p-4 flex-1 aspect-square"
       >
         <span class="text-xl font-bold">{{ latestMoisture }}%</span>
         <span class="text-sm text-center">Soil Moisture</span>
       </div>
       <div
         @click="showMetric('temperature')"
-        class="cursor-pointer bg-white rounded shadow flex flex-col items-center justify-center p-4 flex-1"
+        class="cursor-pointer bg-white rounded shadow flex flex-col items-center justify-center p-4 flex-1 aspect-square"
       >
         <span class="text-xl font-bold">{{ latestTemperature }}°C</span>
         <span class="text-sm text-center">Temperature</span>
       </div>
       <div
         @click="showMetric('light')"
-        class="cursor-pointer bg-white rounded shadow flex flex-col items-center justify-center p-4 flex-1"
+        class="cursor-pointer bg-white rounded shadow flex flex-col items-center justify-center p-4 flex-1 aspect-square"
     >
         <span class="text-xl font-bold">{{ latestLight }}</span>
         <span class="text-sm text-center">Light clux</span>
       </div>
     </div>
     <div class="bg-white rounded shadow p-4 flex flex-col items-center" style="height: 20rem;">
-      <h2 class="font-semibold mb-2">{{ metricHeader }}</h2>
+      <h2 class="font-semibold mb-2 text-2xl self-start ml-4">{{ metricHeader }}</h2>
       <div v-if="selectedMetric === 'overall'" class="flex items-center justify-center flex-1 text-xl">
         Your plant is healthy
       </div>
