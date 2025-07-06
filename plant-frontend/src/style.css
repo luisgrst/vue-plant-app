@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply bg-gray-100;
+html, body, button, a, [role="button"] {
+  touch-action: manipulation;
 }
+
+.no-pointer { pointer-events: none; }

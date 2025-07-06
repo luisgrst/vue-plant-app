@@ -1,37 +1,65 @@
 <template>
-  <div class="p-4 space-y-4 bg-slate-200 h-[100vh]">
-    <h1 class="text-2xl font-bold">Your Plants</h1>
-    <ul>
+  <div class="bg-background h-[95vh] overflow-y-auto scroll-spring relative">
+    <!-- Sticky Header Card -->
+    <div
+      class="sticky top-4 z-20 m-4 text-text font-bold text-center
+             bg-surface border border-border rounded-xl shadow-soft p-4"
+    >
+      Your Plants
+    </div>
+
+    <!-- Scrollable List Container -->
+    <ul class="flex flex-col items-center gap-4">
       <li
-        v-for="plant in plants"
+        v-for="(plant, index) in plants"
         :key="plant.id"
-        class="flex items-center justify-between bg-gray-800 text-white rounded-xl p-4 mb-2"
-        @click="$emit('selectPlant', plant)">
-        <span class="font-bold">{{ plant.name }}</span>
-        <span class="ml-2 text-xl">&#8594;</span>
+        class="sticky top-[calc(23*0.25rem)] z-10 text-text-muted bg-surface border border-border
+               rounded-xl shadow-soft p-4 w-[85vw] max-w-lg font-semibold
+               text-center cursor-pointer transition-colors duration-50 hover:bg-hover"
+        @click="$emit('selectPlant', [plant, true])"
+      >
+        <div class="flex items-center justify-between">
+          <div class="inline-flex items-center">
+            <span class="mr-2 text-text font-bold">{{ index + 1 }}.</span>
+            <span>{{ plant.name }}</span>
+            <div
+              class="w-6 h-6 ml-2"
+              :style="{ color: healthColors[plant.health] }"
+              v-html="coloredSvg"
+            />
+          </div>
+          <div class="flex items-center">
+            <button
+              @click.stop="$emit('deletePlant', plant.id)"
+              class="ml-2 p-1 rounded-full hover:bg-red-50 transition"
+              title="Delete Plant"
+            >
+              <svg class="w-5 h-5 text-red-400 hover:text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M6 19a2 2 0 002 2h8a2 2 0 002-2V7H6v12zM19 7V5a2 2 0 00-2-2H7a2 2 0 00-2 2v2m5 4v6m4-6v6" />
+              </svg>
+            </button>
+          </div>
+        </div>
       </li>
-      <!-- Add Plant entry -->
-      <li
-        key="add"
-        class="flex items-center justify-center rounded-xl p-4 mb-2 border-2 border-gray-800"
-        @click="$emit('addPlant')">
-        <span class="font-bold">Add Plant +</span>
-      </li>
+      <li class="h-[90vh]"></li>
     </ul>
   </div>
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue'
-defineProps({ plants: Array })
-defineEmits(['selectPlant', 'addPlant'])
-</script>
+import { computed } from 'vue'
+import leafRaw from '/src/assets/leaf-circle.svg?raw'
 
-<style scoped>
-li:hover {
-  background-color: #27272a; /* slate-800 for existing items */
-}
-li[key="add"]:hover {
-  background-color: #e2e8f0; /* slate-100 for add entry */
-}
-</style>
+const emit = defineEmits(['selectPlant', 'refresh', 'deletePlant'])
+const props = defineProps({ plants: Array })
+
+const healthColors = ['#34D399', '#FFB547', '#FF6347']
+const coloredSvg = computed(() => {
+  const noFills = leafRaw.replace(/fill=".*?"/g, '')
+  return noFills.replace(
+    /<svg([^>]*)>/,
+    `<svg$1 fill="currentColor" xmlns="http://www.w3.org/2000/svg">`
+  )
+})
+</script>
